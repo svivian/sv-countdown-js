@@ -1,0 +1,30 @@
+
+.svcd-timer {
+	width: 100%;
+	margin-bottom: 8px;
+}
+.svcd-timer th {
+	color: #666;
+	font-size: 10px;
+	font-weight: normal;
+	text-transform: uppercase;
+}
+.svcd-days, .svcd-hours, .svcd-mins, .svcd-secs {
+	text-align: center;
+	font-size: 24px;
+	font-weight: bold;
+	color: #0a0;
+}
+.svcd-days {
+	color: #990;
+}
+.svcd-blastoff {
+	font-size: 24px;
+	font-weight: bold;
+	text-align: center;
+}
+.svcd-until {
+	margin: 0;
+	font-size: 13px;
+	text-align: center;
+}
