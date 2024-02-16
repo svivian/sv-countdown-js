@@ -1,8 +1,8 @@
 
-sv-countdown
+SV-Countdown
 =================================================
 
-sv-countdown is a vanilla JavaScript countdown plugin with no dependencies. Pass in a CSS selector for a wrapping element, the date and message, and the plugin will set up a table showing days/hours/minutes/seconds until your event. Example:
+**sv-countdown** is a vanilla JavaScript countdown plugin with no dependencies. Pass in a CSS selector for a wrapping element, the date and message, and the plugin will set up a table showing days/hours/minutes/seconds until your event. Example:
 
 	<div id="countdown"></div>
 

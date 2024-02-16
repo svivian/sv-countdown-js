@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+	body {
+		margin: 2rem;
+		padding: 0;
+		background-color: #85cdcb;
+		font-family: system-ui, Ubuntu, Helvetica, Arial, sans-serif;
+	}
+	main {
+		max-width: 750px;
+		min-height: 200px;
+		margin: 0 auto;
+		padding: 1.5rem;
+		background-color: #fff;
+	}
+	h1 {
+		margin: 0 0 1rem;
+	}
+	#countdown {
+		width: 250px;
+		max-width: 100%;
+	}
+	.sv-cd-timer td {
+		width: 25%;
+	}
+	</style>
+	<link rel="stylesheet" href="sample.css">
+	<script src="../src/sv-countdown.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			new SV.Countdown('#countdown', {
+				year: (new Date()).getFullYear() + 1,
+				month: 1,
+				day: 1,
+				untilMessage: 'Countdown to the end of the year',
+				endMessage: 'Happy new year!'
+			});
+		});
+	</script>
+</head>
+<body>
+
+	<main>
+		<h1>SV-Countdown demo</h1>
+
+		<div id="countdown"></div>
+	</main>
+
+</body>
+</html>
