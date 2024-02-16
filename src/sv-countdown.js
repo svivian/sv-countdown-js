@@ -17,75 +17,72 @@ SV.Countdown = (function() {
 			tableClass: ''
 		};
 
-		var config = {};
-		var wrapper;
-		var targetDate;
-		var daysLeft, hoursLeft, minsLeft, secsLeft;
-		var useTableClass = 'sv-cd-timer';
+		const oneSec = 1000; // milliseconds
+		const oneMin = 60000; // oneSec x 60
+		const oneHour = 3600000; // oneMin x 60
+		const oneDay = 86400000; // oneHour x 24
 
-		// public api
-		var methods = {};
+		let config = {};
+		let wrapper, daysElem, hoursElem, minsElem, secsElem;
+		let targetDate;
+		let daysLeft, hoursLeft, minsLeft, secsLeft;
+		let useTableClass = 'sv-cd-timer';
 
-		// private methods
-
-		var formatTime = function(time) {
+		const formatTime = function(time) {
 			if (time < 10)
 				return '0' + time;
 
 			return time;
 		};
 
-		var setTimer = function() {
-			var oneSec  = 1000;     // milliseconds
-			var oneMin  = 60000;    // oneSec x 60
-			var oneHour = 3600000;  // oneMin x 60
-			var oneDay  = 86400000; // oneHour x 24
+		const calcTimeLeft = function() {
+			let now = new Date();
+			const timeLeftTotal = targetDate.getTime() - now.getTime();
 
-			var now = new Date();
-			var timeLeftTotal = targetDate.getTime() - now.getTime();
-
-			var timeLeftDays = timeLeftTotal % oneDay;
+			const timeLeftDays = timeLeftTotal % oneDay;
 			daysLeft = ( timeLeftTotal - timeLeftDays ) / oneDay;
 
-			var timeLeftHours = timeLeftDays % oneHour;
+			const timeLeftHours = timeLeftDays % oneHour;
 			hoursLeft = ( timeLeftDays - timeLeftHours ) / oneHour;
 
-			var timeLeftMins = timeLeftHours % oneMin;
+			const timeLeftMins = timeLeftHours % oneMin;
 			minsLeft = ( timeLeftHours - timeLeftMins ) / oneMin;
 
-			var timeLeftSecs = timeLeftMins % oneSec;
+			const timeLeftSecs = timeLeftMins % oneSec;
 			secsLeft = ( timeLeftMins - timeLeftSecs ) / oneSec;
 		};
 
-		var updateTime = function() {
-			setTimer();
+		const updateTime = function() {
+			calcTimeLeft();
 
 			if (daysLeft <= 0 && hoursLeft <= 0 && minsLeft <= 0 && secsLeft <= 0) {
-				wrapper.innerHTML = '<p class="sv-cd-blastoff">' + options.endMessage + '</p>';
+				wrapper.innerHTML = '<p class="sv-cd-blastoff">' + config.endMessage + '</p>';
 			} else {
-				wrapper.querySelector('.sv-cd-days').innerText = daysLeft;
-				wrapper.querySelector('.sv-cd-hours').innerText = formatTime(hoursLeft);
-				wrapper.querySelector('.sv-cd-mins').innerText = formatTime(minsLeft);
-				wrapper.querySelector('.sv-cd-secs').innerText = formatTime(secsLeft);
-
-				setTimeout(updateTime, 1000);
+				daysElem.textContent = daysLeft;
+				hoursElem.textContent = formatTime(hoursLeft);
+				minsElem.textContent = formatTime(minsLeft);
+				secsElem.textContent = formatTime(secsLeft);
 			}
 		};
 
-		var init = function() {
+		const init = function() {
 			wrapper = document.querySelector(selector);
-			if (!wrapper)
+			if (!wrapper) {
+				console.error('Error: wrapper element not found');
 				return;
+			}
 
 			config = Object.assign({}, defaultOptions, userConfig);
-
 			targetDate = new Date(config.year, config.month - 1, config.day);
 
 			if (config.tableClass.length > 0)
 				useTableClass += ' ' + config.tableClass;
 
-			var tableHtml =
-				'<table class="' + useTableClass + '">' +
+			let tableHtml = '<table class="' + useTableClass + '">';
+			if (config.untilMessage.length > 0)
+				tableHtml += '<caption class="sv-cd-until">' + config.untilMessage + '</caption>';
+
+			tableHtml +=
 				'<thead>' +
 					'<tr>' +
 						'<th>Days</th>' +
@@ -104,12 +101,15 @@ SV.Countdown = (function() {
 				'</tbody>' +
 				'</table>';
 
-			if (config.untilMessage.length > 0)
-				tableHtml += '<p class="sv-cd-until">' + config.untilMessage + '</p>';
-
 			wrapper.innerHTML = tableHtml;
-			updateTime();
 
+			daysElem = wrapper.querySelector('.sv-cd-days');
+			hoursElem = wrapper.querySelector('.sv-cd-hours');
+			minsElem = wrapper.querySelector('.sv-cd-mins');
+			secsElem = wrapper.querySelector('.sv-cd-secs');
+
+			updateTime();
+			setInterval(updateTime, oneSec);
 		};
 
 		init();
