@@ -4,7 +4,7 @@ SV = window.SV || {};
 SV.Countdown = (function() {
 
 	// constructor
-	return function(selector, userConfig) {
+	return function(wrapperElem, userConfig) {
 
 		// private members
 
@@ -24,10 +24,10 @@ SV.Countdown = (function() {
 		const oneDay = 86400000; // oneHour x 24
 
 		let config = {};
-		let wrapper, daysElem, hoursElem, minsElem, secsElem;
+		let daysElem, hoursElem, minsElem, secsElem;
 		let targetDate;
 		let daysLeft, hoursLeft, minsLeft, secsLeft;
-		let useTableClass = 'sv-cd-timer';
+		let tableClass = 'sv-cd-timer';
 
 		const formatTime = function(time) {
 			if (time < 10)
@@ -57,7 +57,7 @@ SV.Countdown = (function() {
 			calcTimeLeft();
 
 			if (daysLeft <= 0 && hoursLeft <= 0 && minsLeft <= 0 && secsLeft <= 0) {
-				wrapper.innerHTML = '<p class="sv-cd-blastoff">' + config.endMessage + '</p>';
+				wrapperElem.innerHTML = '<p class="sv-cd-blastoff">' + config.endMessage + '</p>';
 			} else {
 				daysElem.textContent = daysLeft;
 				hoursElem.textContent = formatTime(hoursLeft);
@@ -68,19 +68,17 @@ SV.Countdown = (function() {
 		};
 
 		const init = function() {
-			wrapper = document.querySelector(selector);
-			if (!wrapper) {
-				console.error('Error: wrapper element not found');
-				return;
+			if (!wrapperElem) {
+				throw 'Error: invalid element supplied';
 			}
 
 			config = Object.assign({}, defaultOptions, userConfig);
 			targetDate = new Date(config.year, config.month - 1, config.day);
 
 			if (config.tableClass.length > 0)
-				useTableClass += ' ' + config.tableClass;
+				tableClass += ' ' + config.tableClass;
 
-			let tableHtml = '<table class="' + useTableClass + '">';
+			let tableHtml = '<table class="' + tableClass + '">';
 			if (config.untilMessage.length > 0)
 				tableHtml += '<caption class="sv-cd-until">' + config.untilMessage + '</caption>';
 
@@ -103,12 +101,12 @@ SV.Countdown = (function() {
 				'</tbody>' +
 				'</table>';
 
-			wrapper.innerHTML = tableHtml;
+			wrapperElem.innerHTML = tableHtml;
 
-			daysElem = wrapper.querySelector('.sv-cd-days');
-			hoursElem = wrapper.querySelector('.sv-cd-hours');
-			minsElem = wrapper.querySelector('.sv-cd-mins');
-			secsElem = wrapper.querySelector('.sv-cd-secs');
+			daysElem = wrapperElem.querySelector('.sv-cd-days');
+			hoursElem = wrapperElem.querySelector('.sv-cd-hours');
+			minsElem = wrapperElem.querySelector('.sv-cd-mins');
+			secsElem = wrapperElem.querySelector('.sv-cd-secs');
 
 			updateTime();
 			setInterval(updateTime, config.showSeconds ? oneSec : oneMin);

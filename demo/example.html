@@ -35,7 +35,7 @@
 	<script src="../src/sv-countdown.js"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
-			new SV.Countdown('#countdown', {
+			new SV.Countdown(document.querySelector('#countdown'), {
 				year: (new Date()).getFullYear() + 1,
 				month: 1,
 				day: 1,
