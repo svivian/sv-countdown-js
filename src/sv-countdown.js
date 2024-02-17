@@ -12,6 +12,7 @@ SV.Countdown = (function() {
 			year: 2000,
 			month: 1,
 			day: 1,
+			showSeconds: true,
 			untilMessage: '',
 			endMessage: '',
 			tableClass: ''
@@ -61,7 +62,8 @@ SV.Countdown = (function() {
 				daysElem.textContent = daysLeft;
 				hoursElem.textContent = formatTime(hoursLeft);
 				minsElem.textContent = formatTime(minsLeft);
-				secsElem.textContent = formatTime(secsLeft);
+				if (config.showSeconds)
+					secsElem.textContent = formatTime(secsLeft);
 			}
 		};
 
@@ -88,7 +90,7 @@ SV.Countdown = (function() {
 						'<th>Days</th>' +
 						'<th>Hours</th>' +
 						'<th>Mins</th>' +
-						'<th>Secs</th>' +
+						(config.showSeconds ? '<th>Secs</th>' : '') +
 					'</tr>' +
 					'</thead>' +
 					'<tbody>' +
@@ -96,7 +98,7 @@ SV.Countdown = (function() {
 						'<td class="sv-cd-days"></td>' +
 						'<td class="sv-cd-hours"></td>' +
 						'<td class="sv-cd-mins"></td>' +
-						'<td class="sv-cd-secs"></td>' +
+						(config.showSeconds ? '<td class="sv-cd-secs"></td>' : '') +
 					'</tr>' +
 				'</tbody>' +
 				'</table>';
@@ -109,7 +111,7 @@ SV.Countdown = (function() {
 			secsElem = wrapper.querySelector('.sv-cd-secs');
 
 			updateTime();
-			setInterval(updateTime, oneSec);
+			setInterval(updateTime, config.showSeconds ? oneSec : oneMin);
 		};
 
 		init();
