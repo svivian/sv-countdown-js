@@ -3,6 +3,20 @@ SV-Countdown
 
 **sv-countdown-js** is a vanilla JavaScript countdown plugin with no dependencies. Pass in an HTML element (such as that returned from `document.querySelector`) that will be used as a wrapper for the countdown, plus an object containing the configuration, and the plugin will set up a table showing days/hours/minutes/seconds until your event.
 
+
+## Installation
+
+SV.Countdown can be installed via npm:
+
+```sh
+npm install sv-countdown
+```
+
+Then use the file `node_modules/sv-countdown/src/sv-countdown.js` in your project - either directly in a `<script>` tag, or passing into your bundler/task runner.
+
+Alternatively, you can download or link to a minified version via [jsDelivr](https://www.jsdelivr.com/package/npm/sv-countdown).
+
+
 ## Example usage
 
 ```html
